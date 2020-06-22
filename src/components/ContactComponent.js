@@ -8,6 +8,7 @@ import {
   Col,
   Label,
   Button,
+  FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -22,9 +23,48 @@ class Contact extends Component {
       agree: false,
       contactType: "Tel.",
       message: "",
+      touched: {
+        firstname: false,
+        lastname: false,
+        telnum: false,
+        email: false,
+      },
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+  }
+
+  handleBlur = (field) => (event) => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true },
+    });
+  };
+  validate(firstname, lastname, email, telnum) {
+    const errors = {
+      firstname: "",
+      lastname: "",
+      telnum: "",
+      email: "",
+    };
+    if (this.state.touched.firstname && firstname.length <= 3)
+      errors.firstname = "First name must be greater than 3 letters";
+    else if (this.state.touched.firstname && firstname.length >= 10)
+      errors.firstname = "First name must be less than 10 letters";
+    if (this.state.touched.lastname && lastname.length < 1)
+      errors.lastname = "Last name must be greater than 1 letters";
+    else if (this.state.touched.lastname && lastname.length >= 10)
+      errors.lastname = "Last name must be less than 10 letters";
+    const reg = /^\d+$/;
+    if (this.state.touched.telnum && !reg.test(telnum))
+      errors.telnum = "telephone number should contain only numbers";
+
+    if (
+      this.state.touched.email &&
+      email.split("").filter((x) => x === "@").length !== 1
+    )
+      errors.email = "enter a valid email address";
+    return errors;
   }
   handleInputChange(event) {
     const target = event.target;
@@ -39,6 +79,12 @@ class Contact extends Component {
     event.preventDefault();
   }
   render() {
+    const errors = this.validate(
+      this.state.firstname,
+      this.state.lastname,
+      this.state.email,
+      this.state.telnum
+    );
     return (
       <div className="container">
         <div className="row">
@@ -117,7 +163,11 @@ class Contact extends Component {
                     value={this.state.firstname}
                     placeholder="First Name"
                     onChange={this.handleInputChange}
+                    onBlur={this.handleBlur("firstname")}
+                    valid={errors.firstname === ""}
+                    invalid={errors.firstname !== ""}
                   />
+                  <FormFeedback>{errors.firstname}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -132,7 +182,11 @@ class Contact extends Component {
                     value={this.state.lastname}
                     placeholder="Last Name"
                     onChange={this.handleInputChange}
+                    onBlur={this.handleBlur("lastname")}
+                    valid={errors.lastname === ""}
+                    invalid={errors.lastname !== ""}
                   />
+                  <FormFeedback>{errors.lastname}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -147,7 +201,11 @@ class Contact extends Component {
                     value={this.state.email}
                     placeholder="Email"
                     onChange={this.handleInputChange}
+                    onBlur={this.handleBlur("email")}
+                    valid={errors.email === ""}
+                    invalid={errors.email !== ""}
                   />
+                  <FormFeedback>{errors.email}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -162,7 +220,11 @@ class Contact extends Component {
                     value={this.state.telnum}
                     placeholder="Tel. Contact"
                     onChange={this.handleInputChange}
+                    onBlur={this.handleBlur("telnum")}
+                    valid={errors.telnum === ""}
+                    invalid={errors.telnum !== ""}
                   />
+                  <FormFeedback>{errors.telnum}</FormFeedback>
                 </Col>
               </FormGroup>
               <FormGroup row>
