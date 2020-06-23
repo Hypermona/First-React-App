@@ -13,6 +13,7 @@ import About from "./AboutComponent";
 const mapStateToProp = (state) => {
   return {
     dishes: state.dishes,
+    comments: state.comments,
     promotions: state.promotions,
     leaders: state.leaders,
   };
@@ -35,6 +36,7 @@ class Main extends Component {
     };
 
     const DishWithId = ({ match }) => {
+      console.log();
       return (
         <DishDetail
           dish={
