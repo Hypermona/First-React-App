@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Loading } from "./LoadingComponent";
 import {
   Card,
   CardBody,
@@ -125,18 +126,17 @@ class CommentForm extends Component {
 }
 
 function RenderDish({ dish }) {
-  if (dish) {
-    return (
-      <Card>
-        <CardImg width="100%" src={dish.image} />
-        <CardBody>
-          <CardTitle>{dish.name}</CardTitle>
-          <CardText>{dish.description}</CardText>
-        </CardBody>
-      </Card>
-    );
-  }
+  return (
+    <Card>
+      <CardImg width="100%" src={dish.image} />
+      <CardBody>
+        <CardTitle>{dish.name}</CardTitle>
+        <CardText>{dish.description}</CardText>
+      </CardBody>
+    </Card>
+  );
 }
+
 function RenderComments({ comments, dishId, addcomment }) {
   console.log(comments);
   if (comments) {
@@ -170,7 +170,23 @@ function RenderComments({ comments, dishId, addcomment }) {
   }
 }
 const DishDetail = (props) => {
-  if (props.dish) {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    );
+  } else if (props.dish != null) {
     return (
       <div className="container">
         <div className="row">
