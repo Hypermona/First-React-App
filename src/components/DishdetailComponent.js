@@ -39,6 +39,7 @@ class CommentForm extends Component {
     });
   }
   handelSubmit(value) {
+    this.toggleModal();
     alert("Current state is " + JSON.stringify(value));
   }
   render() {
