@@ -154,21 +154,21 @@ function RenderComments({ comments, dishId, postComment }) {
         <h4>Comments</h4>
         <ul className="list-group">
           <Stagger in>
-            {comments.map((x) => {
+            {comments.map((comment) => {
               return (
-                <li key={x.id} className="list-group mt-3">
-                  <p>{x.comment}</p>
-                  <p>
-                    {"-- " +
-                      x.author +
-                      " , " +
-                      new Intl.DateTimeFormat("en-US", {
+                <Fade in>
+                  <li key={comment.id}>
+                    <p>{comment.comment}</p>
+                    <p>
+                      -- {comment.author} ,{" "}
+                      {new Intl.DateTimeFormat("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "2-digit",
-                      }).format(new Date(Date.parse(x.date)))}
-                  </p>
-                </li>
+                      }).format(new Date(Date.parse(comment.date)))}
+                    </p>
+                  </li>
+                </Fade>
               );
             })}
           </Stagger>
