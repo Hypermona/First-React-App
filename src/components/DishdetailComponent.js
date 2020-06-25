@@ -20,6 +20,7 @@ import {
   Col,
 } from "reactstrap";
 import { Control, Errors, LocalForm } from "react-redux-form";
+import { baseUrl } from "../shared/baseUrl";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -128,7 +129,7 @@ class CommentForm extends Component {
 function RenderDish({ dish }) {
   return (
     <Card>
-      <CardImg width="100%" src={dish.image} />
+      <CardImg width="100%" src={baseUrl + dish.image} />
       <CardBody>
         <CardTitle>{dish.name}</CardTitle>
         <CardText>{dish.description}</CardText>
