@@ -8,26 +8,30 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { baseUrl } from "../shared/baseUrl";
+import { Stagger, Fade } from "react-animation-components";
 
 function About(props) {
-  const leaders = props.leaders.map((leader, i) => {
+  const leaders = props.leaders.leaders.map((leader, i) => {
     return (
-      <React.Fragment key={i}>
-        <Media className="col-12 mb-4">
-          <Media left className="col-sm-2">
-            <img
-              src={leader.image}
-              className="align-self-center"
-              alt={leader.name}
-            />
+      <Fade in key={i}>
+        <React.Fragment>
+          <Media className="col-12 mb-4">
+            <Media left className="col-sm-2">
+              <img
+                src={baseUrl + leader.image}
+                className="align-self-center"
+                alt={leader.name}
+              />
+            </Media>
+            <Media body>
+              <Media heading>{leader.name}</Media>
+              <p>{leader.designation}</p>
+              <p>{leader.description}</p>
+            </Media>
           </Media>
-          <Media body>
-            <Media heading>{leader.name}</Media>
-            <p>{leader.designation}</p>
-            <p>{leader.description}</p>
-          </Media>
-        </Media>
-      </React.Fragment>
+        </React.Fragment>
+      </Fade>
     );
   });
 
@@ -107,7 +111,11 @@ function About(props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12">
-          <Media list>{leaders}</Media>
+          <Media list>
+            <Stagger in duration={300}>
+              {leaders}
+            </Stagger>
+          </Media>
         </div>
       </div>
     </div>
